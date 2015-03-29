@@ -10,6 +10,9 @@ class VCG:
     """
     @staticmethod
     def compute(slot_clicks, reserve, bids):
+
+        sorted_bids = sorted(bids, key = lambda bid: bid[1])
+
         """
         Given info about the setting (clicks for each slot, and reserve price),
         and bids (list of (id, bid) tuples), compute the following:
@@ -49,8 +52,28 @@ class VCG:
             """
             Total payment for a bidder in slot k.
             """
-            c = slot_clicks
-            n = len(allocation)
+            c = slot_clicks    
+            n = len(allocation) #allocated bids  = num_slots - 1
+            payment = 0
+            # print allocated_bids
+            
+            if k >= n:
+                return payment
+
+            if k == n - 1:
+                payment = pow(0.75, k-1)*max(reserve, sorted_bids[k][1])
+                # pow(0.75, k-1)*
+
+            elif k < n - 1:
+               
+                payment = (pow(0.75, k-1)-pow(0.75, k))*sorted_bids[k+1][1]+total_payment(k+1) 
+                # (pow(0.75, k-1)-pow(0.75, k))
+                #+ total_payment(k+1)
+                # payment = 0
+
+            return payment
+
+
 
             # TODO: Compute the payment and return it.
 
