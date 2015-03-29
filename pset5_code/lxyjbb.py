@@ -2,10 +2,12 @@
 
 import sys
 
+import math
 from gsp import GSP
 from util import argmax_index
+from auction import iround
 
-class BBAgent:
+class lxyjbb:
     """Balanced bidding agent"""
     def __init__(self, id, value, budget):
         self.id = id
@@ -48,10 +50,21 @@ class BBAgent:
         the previous round.
 
         returns a list of utilities per slot.
+        We return a tuple list of [(slot_id, min_util, max_util)]
         """
         # TODO: Fill this in
-        utilities = []   # Change this
+        info = self.slot_info(t, history,reserve)
+        utilities = [] 
+        for i in range(len(info)):
+            slot_info = info[i]
+            slot_id = slot_info[0]
+            slot_min_bid = slot_info[1]
+            slot_max_bid = slot_info[2]
 
+            top_slot_clicks = iround(30*math.cos(math.pi*t/24) + 50)
+            util = (self.value - slot_min_bid)*iround(pow(.75, slot_id)*top_slot_clicks)
+
+            utilities.append(util)
         
         return utilities
 
@@ -81,13 +94,20 @@ class BBAgent:
         prev_round = history.round(t-1)
         (slot, min_bid, max_bid) = self.target_slot(t, history, reserve)
 
+        """utilities = self.expected_utils(t,history,reserve)
+        max_util_idx = utilities.index(zip(*utilities)[1])
+        max_util_slot = utilities[max_util_idx][0]"""
+
+        if slot == 0:
+            bid = self.value
+        else:
+            bid = self.value - (pow(.75, slot)/pow(.75,slot-1))*(self.value - min_bid)
+
         # TODO: Fill this in.
-        bid = 0  # change this
+        #bid = 0  # change this
         
         return bid
 
     def __repr__(self):
         return "%s(id=%d, value=%d)" % (
             self.__class__.__name__, self.id, self.value)
-
-
