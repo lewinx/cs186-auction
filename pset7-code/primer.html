@@ -1,0 +1,41 @@
+<html>
+<title>Learning Javascript</title>
+
+<script type="text/javascript">
+	//   (a)
+	document.write("Hello World<br>");	
+	//  (b) Variable and print
+	var x = "Testing";
+	document.write("x = "+x+"<br>");
+	if(x == "Testing")
+		document.write("String comparison PASS! <br>");
+	
+	// Iterate and print.
+	for(i=0; i <10; i++)
+		document.write("i= "+i + "&nbsp;&nbsp;&nbsp;");
+	document.write("<br>");
+	// Define function 
+	function add(a,b) {
+		return a+b;
+	}
+	document.write("add(1,2)= "+ add(1,2)+"<br>");
+	// Define object
+	var obj = new Object();
+	obj.x = 1;
+	document.write("object.x = "+obj.x+"<br>");
+	// Define object
+	obj = { x : 1, 	y : 2};
+	document.write("Parameters of object = ("+obj.x+","+obj.y+") <br>");
+	// Function as parameter
+	obj.add = function(x, y) { return x+y }					// ** TO-DO: This will need to be changed
+	document.write("obj.add(1,2) = "+obj.add(1,2)+" <br>");
+	
+	//Print all object properties
+	for(i in obj) 
+		document.write("<br>Property "+i+" = "+obj[i]);
+		
+	var Algebra = { };										// ** TO-DO: Define an Algebra object
+	
+</script>
+
+</html>
