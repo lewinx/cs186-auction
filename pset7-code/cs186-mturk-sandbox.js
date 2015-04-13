@@ -8,12 +8,21 @@ var page = createWebpageFromTemplate(
  <input type="submit" value="Submit"></input>
 </div>);
 
+function makeSecure(url) {
+return url.substring(0, 4) + "s" + url.substring(4);
+}
+
 // TO-DO define the HIT parameters.
-var hitParams = <YOUR CODE>
+  var hitParams = { title : "Random Numbers",
+        desc : "Pick a Random Number between 1 and 10",
+        url : makeSecure(page),
+        height : 800,
+        reward : 0.02
+    };
 
 // Create the HIT
 var hit = mturk.createHIT(hitParams)
 print("Hit created  : "+ hit)
+//print("reached")
 
 //Report the results on the writeup
-    
