@@ -27,14 +27,27 @@
 	obj = { x : 1, 	y : 2};
 	document.write("Parameters of object = ("+obj.x+","+obj.y+") <br>");
 	// Function as parameter
-	obj.add = function(x, y) { return x+y }					// ** TO-DO: This will need to be changed
+	obj.add = add;					// ** TO-DO: This will need to be changed
 	document.write("obj.add(1,2) = "+obj.add(1,2)+" <br>");
 	
 	//Print all object properties
 	for(i in obj) 
 		document.write("<br>Property "+i+" = "+obj[i]);
 		
-	var Algebra = { };										// ** TO-DO: Define an Algebra object
+	var Algebra = new Object(0);										// ** TO-DO: Define an Algebra object
+
+	Algebra.operation = 'multiplication';
+	Algebra.mul = function(a,b) {return a*b}
+
+	Algebra.genprod = function(n, f) {
+		var stored_value = 1;
+		for(i=1; i<=n; i++){
+			stored_value = f(i)*stored_value;
+		}
+		return stored_value;
+	}
+
+	document.write(Algebra.genprod(5, function(x) { return x}));
 	
 </script>
 

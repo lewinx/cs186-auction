@@ -1,0 +1,30 @@
+// begin:abd8
+__HITs = {
+}
+__S3_Objects = {
+}
+__stackFrames = {
+	"for-real" : {
+		"sequencialFrames" : [
+			{
+				"creationTime" : 1.428648590557E12,
+				"onceFunc" : "\nfunction () {\n    return s3.putStringRaw(bucketName, key, stringData);\n}\n",
+				"returnValue" : "http://s3.amazonaws.com/AKIAJUDNS5EZPEJFKVLA.TurKit/n6slyqh3m8q4s494glom2xvvzk5yvnlm.html",
+				"returnTime" : 1.428648590667E12,
+				"printOutput" : "S3 object put at: http://s3.amazonaws.com/AKIAJUDNS5EZPEJFKVLA.TurKit/n6slyqh3m8q4s494glom2xvvzk5yvnlm.html\r\n"
+			},
+			{
+				"creationTime" : 1.428648590667E12,
+				"onceFunc" : "\nfunction () {\n    return mturk.createHITRaw(params);\n}\n",
+				"returnValue" : "33BFF6QPI1CUPNU0V0CS50YDNJ6W3T",
+				"returnTime" : 1.428648591042E12,
+				"printOutput" : "created HIT: 33BFF6QPI1CUPNU0V0CS50YDNJ6W3T\r\n        url: https://www.mturk.com/mturk/preview?groupId=3H2ZGQZOTXAUJH5XOI6KIS1QVPTYXI\r\n"
+			}
+		]
+	}
+}
+__safetyCounters = {
+	"moneySpent" : 0.02,
+	"hitsCreated" : 1
+}
+// end:abd8
