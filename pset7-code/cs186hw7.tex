@@ -1,0 +1,127 @@
+%
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{xfrac}
+\usepackage{float}
+\usepackage{hyperref}
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\newcommand{\noin}{\noindent}    
+\newcommand{\logit}{\textrm{logit}} 
+\newcommand{\var}{\textrm{Var}}
+\newcommand{\cov}{\textrm{Cov}} 
+\newcommand{\corr}{\textrm{Corr}} 
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\NBin}{\textrm{NBin}}
+\newcommand{\Bern}{\textrm{Bern}}
+\newcommand{\Bin}{\textrm{Bin}}
+\newcommand{\Beta}{\textrm{Beta}}
+\newcommand{\Gam}{\textrm{Gamma}}
+\newcommand{\Expo}{\textrm{Expo}}
+\newcommand{\Pois}{\textrm{Pois}}
+\newcommand{\Unif}{\textrm{Unif}}
+\newcommand{\eq}[1]{\begin{align*}#1\end{align*}}
+
+
+\title{CS186 Homework 7}
+%\subtitle{Counting}
+\author{Yuan Jiang and Lewin Xue}
+\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+
+\subsection*{Part (a)}
+
+
+The name ``Mechanical Turk'' comes from a chess-playing automaton created during the 18th century that was called ``The Turk''. Later on, ``The Turk'' was revealed to be not a machine, but a chess master that was hidden in a special compartment controlling its operations. Similarly, AMT allows humans to help today's machines perform tasked that computers are currently unable to do. 
+
+\subsection*{Part (b)}
+
+The last task was a verification of the descriptions of pictures shown to users in hopes that descriptions for items would improve.
+
+\subsection*{Part (c)}
+
+
+http://www.oregonlive.com/living/index.ssf/2015/02/how_amazons_crowdsourcing_foru.html
+
+The crux of the article talks about how research in the old days collected data from a diverse group of subjects, but now with the development of AMT, more and more researchers are turning to AMT for data collection. While AMT promises a lot of potential for academic research, the downside of AMT is that there are groups of super-users that complete the same HITs over and over again. This brings into question how reliable the data collected from AMT is.
+
+\section*{Problem 2}
+
+\subsection*{Part (a)}
+\subsection*{Part (b)}
+\subsection*{Part (c)}
+\subsection*{Part (d)}
+
+\section*{Problem 3}
+
+\subsection*{Part (a)}
+\subsection*{Part (b)}
+\subsection*{Part (c)}
+\subsection*{Part (d)}
+
+\section*{Problem 4}
+
+\subsection*{Part (a)}
+\subsection*{Part (b)}
+\subsection*{Part (c)}
+\subsection*{Part (d)}
+
+\section*{Problem 6}
+
+\begin{verbatim}
+vote_dict = dictionary with keys (image1, image2) (number of votes for image 1 came first before image 2)
+
+function obtain_ranking(vote_dict)
+
+  rankings = {pic1, pic2, ... , pic8}
+
+  //for each pair of compared images we find the number of times picture 1 came before the second
+  //We compute the total rank by squaring the percentage of times img 1 came before image 2 and summing over all combinations including img 1.
+  //We repeat this for every image
+  for (image1, image2) in vote_dict:
+    # compute squared ranking - e.g. 0.8 * 8
+    rankings[image1] += percentage of votes for image 1/ total number of votes * number of votes 
+    rankings[image2} += percentage of votes for image 2/ total number of votes * number of votes 
+
+
+  return sorted pics by ranking, highest to lowest  
+\end{verbatim}
+
+
+\end{document}

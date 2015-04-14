@@ -26,6 +26,10 @@
         print("\nNumber "+ansCount+" was not voted as correct\n")
     }    
 
+//function to make secure
+function makeSecure(url) {
+return url.substring(0, 4) + "s" + url.substring(4);
+}
 
 ////    1.   Creates the main Nuclei HIT    /////
 function createNucleiHIT(argCost) {
@@ -55,7 +59,12 @@ function createNucleiHIT(argCost) {
     </QuestionForm>
     
     // TO-DO create the HIT (use the question form above)
-    return mturk.createHIT(<YOUR CODE>)
+    var hit_parems = {title: "Count Nuclei in a Picture",
+            desc: "In the above picture count the number of nuclei you see",
+            url : makeSecure(q),
+            reward: nucleiHITcost
+        }
+    return mturk.createHIT(hit_parems)
 }
 
 

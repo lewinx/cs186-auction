@@ -1,0 +1,29 @@
+// begin:f907
+__HITs = {
+}
+__S3_Objects = {
+	"http://s3.amazonaws.com/AKIAJUDNS5EZPEJFKVLA.TurKit/xos8cgh010qu3bi21h7fk0164bsw2g19.html" : {
+	}
+}
+__stackFrames = {
+	"for-real" : {
+		"sequencialFrames" : [
+			{
+				"creationTime" : 1.428979770159E12,
+				"onceFunc" : "\nfunction () {\n    return s3.putStringRaw(bucketName, key, stringData);\n}\n",
+				"returnValue" : "http://s3.amazonaws.com/AKIAJUDNS5EZPEJFKVLA.TurKit/xos8cgh010qu3bi21h7fk0164bsw2g19.html",
+				"returnTime" : 1.428979770221E12,
+				"printOutput" : "S3 object put at: http://s3.amazonaws.com/AKIAJUDNS5EZPEJFKVLA.TurKit/xos8cgh010qu3bi21h7fk0164bsw2g19.html\r\n"
+			},
+			{
+				"creationTime" : 1.428979770221E12,
+				"onceFunc" : "\nfunction () {\n    return mturk.createHITRaw(params);\n}\n"
+			}
+		]
+	}
+}
+__safetyCounters = {
+	"moneySpent" : 2,
+	"hitsCreated" : 1
+}
+// end:f907
