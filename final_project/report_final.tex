@@ -17,10 +17,27 @@
 \usepackage{sidecap}
 \usepackage{palatino}
 
+\newcommand{\noin}{\noindent}    
+\newcommand{\logit}{\textrm{logit}} 
+\newcommand{\var}{\textrm{Var}}
+\newcommand{\cov}{\textrm{Cov}} 
+\newcommand{\corr}{\textrm{Corr}} 
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\NBin}{\textrm{NBin}}
+\newcommand{\Bern}{\textrm{Bern}}
+\newcommand{\Bin}{\textrm{Bin}}
+\newcommand{\Beta}{\textrm{Beta}}
+\newcommand{\Gam}{\textrm{Gamma}}
+\newcommand{\Expo}{\textrm{Expo}}
+\newcommand{\Pois}{\textrm{Pois}}
+\newcommand{\Unif}{\textrm{Unif}}
+\newcommand{\eq}[1]{\begin{align*}#1\end{align*}}
 
 
 % \usepackage{natbib, setspace}
 \usepackage{setspace}
+
+
 
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
@@ -91,9 +108,42 @@ For the purposes of our simulations, in an election with $n$ candidates, a candi
 Democracy 2.1 is a newly proposed voting mechanism that is aimed toward reducing extremism voting. It is a blend of traditional majority voting and disapproval voting, in which each voter is given two ``positive'' votes and one ``negative'' vote. The two positive votes are cast for the top two preferred candidates while the negative vote is cast for the least preferred candidate, and each ``negative'' vote can be thought of as incurring a penalty.  
 
 
-\section{Results and Analysis}
+\section{Simulations}
+
+Simulations were run with 100 voters, 5 candidates, and 1000 iterations. For each iteration, the same candidate preferences were preserved and all 4 voting mechanisms were simulated. Utility loss was calculated as:
+
+\[\textrm{utility loss} = \textrm{optimal candidate utility} - \textrm{winner utility}\]
+
+Candidate preferences were sampled from a standard uniform distribution and a shifting Normal distribution. For candidate $i$, the preference was sampled from a $N(\sqrt(i), (i + 1)^2)$ distribution -- thus, candidates with higher ID numbers were slightly more preferred by the general population. In noisy election, each preference had standard Normal noise added to it. Finally, for ``tight'' elections, candidates 1 and 2 were selected to be favored and preferences for both candidates sampled from a $\Expo(2)$. 
+\subsection{Results}
+
+In many of our simulations, we found that Borda Count would result in the lowest average utility loss. This is reasonable since 1) widely accepted candidates are often elected and 2) more information (voters reveal entire preference) is being used when it comes to determining the final winner.  
+
+\begin{figure}[H]\center
+\includegraphics[scale=0.38]{uniform.png}
+\caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
+\end{figure}
+
+\begin{figure}[H]\center
+\includegraphics[scale=0.38]{normal.png}
+\caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
+\end{figure}
+
+\subsection{Tight Elections}
+
+\begin{figure}[H]\center
+\includegraphics[scale=0.38]{uniform_tight.png}
+\caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
+\end{figure}
+
+\begin{figure}[H]\center
+\includegraphics[scale=0.38]{normal_tight.png}
+\caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
+\end{figure}
+
 
 \section{Final Remarks}
+
 
 
 \end{document}
