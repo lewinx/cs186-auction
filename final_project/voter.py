@@ -60,6 +60,7 @@ class Election:
         self.voters = {x: None for x in range(n_voters)}
         self.candidate_util = {x: 0 for x in self.candidates}
         self.majority_revote_record = {x: None for x in self.candidates}
+        self.optimal_cand = None
 
     def create_voters(self):
 
@@ -135,6 +136,7 @@ class Election:
 
     def calc_optimal(self):
         #returns the who the winner to maximize social utility would be, and that winner(TBD)
+        self.optimal_cand = max(self.candidate_util, key=lambda x: self.candidate_util[x])
         return max(self.candidate_util.values)
 
     def calc_winner_util(self):
