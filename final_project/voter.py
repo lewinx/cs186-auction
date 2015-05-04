@@ -1,12 +1,15 @@
 import random
 import heapq
 import itertools
+import numpy as np
+import sys
 
 class Voter:
 
     def __init__(self, id, candidates):
         self.id = id
-        self.preferences = {x: random.random() for x in candidates}
+        # self.preferences = {x: random.random() for x in candidates}
+        self.preferences = {x: np.random.normal(loc=np.sqrt(x), scale = np.sqrt(x+1)) for x in candidates}
 
     def top_vote(self):
 
@@ -20,7 +23,7 @@ class Voter:
             borda_vote.append((cand,util))
         votes = sorted(borda_vote,key=lambda x: x[1], reverse = True)
         return votes
-        
+
     def dem21_vote(self):
 
         votes = {'pos_vote' : []}
@@ -41,7 +44,7 @@ class Voter:
     def majority_revote(self, candidates):
         """candidates: list of the candidates who can be voted for in the runoff"""
         fav_cand = None
-        temp_max_utility = 0
+        temp_max_utility = -1*sys.maxint
         for candidate in candidates:
             if self.get_util_for_candidate(candidate) > temp_max_utility:
                 temp_max_utility = self.get_util_for_candidate(candidate)
@@ -68,6 +71,9 @@ class Election:
         for voter_id, voter in self.voters.iteritems():
             self.voters[i] = Voter(i, self.candidates)
             i += 1
+
+    def set_election_type(self, election_type):
+        self.type = election_type
 
     def collect_votes(self):
 
@@ -158,6 +164,12 @@ class Election:
 
     def calc_total_votes(self):
         self.total_votes = sum(self.vote_record.values())
+
+    def reset_election(self):
+        self.vote_record = {x: 0 for x in self.candidates}
+        self.winner = None
+        self.majority_revote_record = {x: 0 for x in self.candidates}
+        self.total_votes = 0
 
 
 
