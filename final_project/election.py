@@ -17,8 +17,8 @@ for cand, util in plurality_elec.candidate_util.iteritems():
 for cand, vote in plurality_elec.vote_record.iteritems():
 	print "Candidate:", cand, "Total Votes:", vote
 
-print "The chosen candidate was Candidate", plurality_elec.winner
-print "The socially optimal candidate was Candidate", "Hi"
+print "Winner: Candidate", plurality_elec.winner
+print "Socially Optimal Candidate", "Hi"
 
 
 

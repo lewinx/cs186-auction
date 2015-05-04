@@ -50,7 +50,6 @@ class Voter:
             return candidate[1]
 
 
-
 class Election:
 
     def __init__(self, election_type, n_cand, n_voters):
@@ -103,7 +102,7 @@ class Election:
 
     def determine_runoff_winner(self):
         for cand, votes in self.vote_record:
-            if votes = max(self.majority_revote_record)
+            if votes == max(self.majority_revote_record):
                 return cand
 
     def determine_winner(self):
