@@ -42,6 +42,14 @@ class Voter:
     def get_util_for_candidate(self, candidate):
         return self.preferences[candidate]
 
+    def majority_revote(self, candidates):
+        """candidates: list of the two candidates who can be voted for in the runoff"""
+        if self.preferences(candidates[0]) > self.preferences(candidates[1]):
+            return candidates[0]
+        else:
+            return candidate[1]
+
+
 
 class Election:
 
@@ -52,6 +60,7 @@ class Election:
         self.vote_record = {x: 0 for x in self.candidates}
         self.voters = {x: None for x in range(n_voters)}
         self.candidate_util = {x: 0 for x in self.candidates}
+        self.majority_revote_record = {x: None for x in self.candidates}
 
     def create_voters(self):
 
@@ -69,18 +78,33 @@ class Election:
 
         elif self.tpye == 'Borda':
             num_candidates = len(self.candidates)
-            for voter in self.voters:
+            for voter_id, voter in self.voters.iteritems():
                 my_votes = voter.Borda_vote()
                 for i in range(len(my_votes)):
                     self.vote_record[my_votes[i][0]] += num_candidates - i
-            ####### TBD I don't think the votes itself is right. so I'll do this later
 
         elif self.type == 'democracy21':
-            for voter in self.voters:
+            for voter_id, voter in self.voters.iteritems():
                 my_vote = voter.dem21_vote()
                 for cand in my_vote['pos_vote']:
                     self.vote_record[cand] += 1
                 self.vote_record[my_vote['neg_vote']] -=1
+
+    def election_majority_revote(self, candidates):
+        """Performs revote for a limited set of candidates
+            candidates: the list of candidates that are allowed to be voted for
+        """
+        if len(candidates) != 2:
+            print("majority_revote failed")
+            return 1
+        for voter_id,voter in self.voters.iteritems():
+            vote = voter.majority_revote(candidates)
+            self.majority_revote_record[vote] +=1
+
+    def determine_runoff_winner(self):
+        for cand, votes in self.vote_record:
+            if votes = max(self.majority_revote_record)
+                return cand
 
     def determine_winner(self):
 
@@ -89,7 +113,18 @@ class Election:
                 if votes == max(self.vote_record.values()):
                     self.winner = cand
         else:
-            self.winner = None # TO BE IMPLEMENTED YEAH IDK
+            runoff_cand = []
+            #Either determine a winner or do a re-vote for the 2 highest candidates
+            for cand, votes in self.vote_record:
+                if votes == max(self.vote_record.values) and votes >= len(self.voters):
+                    self.winner = candidate
+                    return 0
+                else:
+                    if votes == max(self.vote_record.values) or heapq.nlargest(2, self.vote_record.values):
+                        runoff_cand.append(cand)
+
+            election_majority_revote(runoff_cand)
+            self.winner = determine_runoff_winner()
 
     def calc_utilities(self):
         #Fills in a dictionary that maps candidates to how much utility they give to all the voters
