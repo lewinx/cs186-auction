@@ -129,12 +129,16 @@ Simulations were run with 100 voters, 5 candidates, and 1000 iterations. For eac
 Candidate preferences were sampled from a standard uniform distribution and a shifting Normal distribution. For candidate $i$, the preference was sampled from a $N(\sqrt(i), (i + 1)^2)$ distribution -- thus, candidates with higher ID numbers were slightly more preferred by the general population. In noisy election, each preference had standard Normal noise added to it. Finally, for ``tight'' elections, candidates 1 and 2 were selected to be favored and preferences for both candidates sampled from a $\Expo(2)$. 
 \subsection{Results}
 
-In many of our simulations, we found that Borda Count would result in the lowest average utility loss. This is reasonable since 1) widely accepted candidates are often elected and 2) more information (voters reveal entire preference) is being used when it comes to determining the final winner.  
+In many of our simulations, we found that Borda Count would result in the lowest average utility loss. This is reasonable since 1) widely accepted candidates are often elected and 2) more information (voters reveal entire preference) is being used when it comes to determining the final winner. \\
+
+Below are visualizations of the outcome of each election. For each set of candidate preferences, we compared both a truthful election as well as a noisy election.  
 
 \begin{figure}[H]\center
 \includegraphics[scale=0.38]{uniform.png}
 \caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
 \end{figure}
+
+From the visualization above, we observe that in a truthful election, Borda Count does noticeably better than the other mechanisms. However, when noise is added to each voter's preference, we see that the utility loss of each election increases and also ...
 
 \begin{figure}[H]\center
 \includegraphics[scale=0.38]{normal.png}
