@@ -2,21 +2,16 @@ import random
 import heapq
 import itertools
 
-class Voter():
+class Voter:
 
-    def __init__(self, id):
-        self.name = name
+    def __init__(self, id, candidates):
         self.id = id
-        self.preferences = None
-
-    def init_preferences(self, candidates):
-
         self.preferences = {x: random.randint(0, 100) for x in candidates}
 
     def top_vote(self):
 
         for cand, util in self.preferences.iteritems():
-            if util == max(self.preferences.values):
+            if util == max(self.preferences.values()):
                 return cand
 
     def Borda_vote(self):
@@ -32,7 +27,7 @@ class Voter():
 
     def dem21_vote(self):
 
-        votes = {'pos_votes' = []}
+        votes = {'pos_votes' : []}
 
         for cand, util in self.preferences.iteritems():
             if util == min(self.preferences.values):
@@ -44,7 +39,7 @@ class Voter():
 
         return votes
 
-    def get_util_for_candidate(candidate):
+    def get_util_for_candidate(self, candidate):
         return self.preferences[candidate]
 
 
@@ -54,16 +49,18 @@ class Election:
         self.type = election_type
         self.candidates = range(n_cand)
         self.winner = None
-        self.vote_record = {x: None for x in self.candidates}
+        self.vote_record = {x: 0 for x in self.candidates}
         self.voters = {x: None for x in range(n_voters)}
         self.candidate_util = {x: 0 for x in self.candidates}
 
     def create_voters(self):
 
+        i = 0
         for voter_id, voter in self.voters.iteritems():
-            self.voters['voter_id'] = Voter()
+            self.voters[i] = Voter(i, self.candidates)
+            i += 1
 
-    def collect_votes(self, votes):
+    def collect_votes(self):
 
         if self.type in ['majority', 'plurality']:
             for voter_id, voter in self.voters.iteritems():
@@ -88,8 +85,8 @@ class Election:
     def determine_winner(self):
 
         if self.type != 'majority':
-            for cand, votes in self.vote_record:
-                if votes == max(self.vote_record.values):
+            for cand, votes in self.vote_record.iteritems():
+                if votes == max(self.vote_record.values()):
                     self.winner = cand
         else:
             self.winner = None # TO BE IMPLEMENTED YEAH IDK
@@ -98,7 +95,7 @@ class Election:
         #Fills in a dictionary that maps candidates to how much utility they give to all the voters
         for cand in self.candidates:
             util = 0
-            for voter in self.voters:
+            for voter_id, voter in self.voters.iteritems():
                 util += voter.get_util_for_candidate(cand)
             self.candidate_util[cand] = util
 
