@@ -69,6 +69,9 @@ class Election:
             self.voters[i] = Voter(i, self.candidates)
             i += 1
 
+    def set_election_type(self, election_type):
+        self.type = election_type
+
     def collect_votes(self):
 
         if self.type in ['majority', 'plurality']:
