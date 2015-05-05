@@ -3,23 +3,34 @@ import heapq
 import itertools
 import numpy as np
 import sys
+import copy
 
 class Voter:
 
     def __init__(self, id, candidates):
         self.id = id
-        # self.preferences = {x: random.random() for x in candidates}
-        self.preferences = {x: np.random.normal(loc=np.sqrt(x), scale = np.sqrt(x+1)) for x in candidates}
+        self.preferences = {x: random.random() for x in candidates}
+        # self.preferences = {x: np.random.normal(loc=(float(x)/float(len(candidates))), scale = 2.0*x/float(len(candidates)) + 1.0) for x in candidates}
+        self.noisy_preferences = copy.deepcopy(self.preferences)
+        for cand in self.noisy_preferences.keys():
+            self.noisy_preferences[cand] += np.random.standard_normal()
+
+        # let's choose top 2 noisy_preferred candidates
+        self.noisy_preferences[1] = np.random.exponential(scale = 2)
+        self.noisy_preferences[2] = np.random.exponential(scale = 2)
+
+        self.preferences[1] = np.random.exponential(scale = 2)
+        self.preferences[2] = np.random.exponential(scale = 2)
 
     def top_vote(self):
 
-        for cand, util in self.preferences.iteritems():
-            if util == max(self.preferences.values()):
+        for cand, util in self.noisy_preferences.iteritems():
+            if util == max(self.noisy_preferences.values()):
                 return cand
 
     def Borda_vote(self):
         borda_vote = []
-        for cand, util in self.preferences.iteritems():
+        for cand, util in self.noisy_preferences.iteritems():
             borda_vote.append((cand,util))
         votes = sorted(borda_vote,key=lambda x: x[1], reverse = True)
         return votes
@@ -28,12 +39,12 @@ class Voter:
 
         votes = {'pos_vote' : []}
 
-        for cand, util in self.preferences.iteritems():
-            if util == min(self.preferences.values()):
+        for cand, util in self.noisy_preferences.iteritems():
+            if util == min(self.noisy_preferences.values()):
                 votes['neg_vote'] = cand
-            elif util == max(self.preferences.values()):
+            elif util == max(self.noisy_preferences.values()):
                 votes['pos_vote'].append(cand)
-            elif util == heapq.nlargest(2, self.preferences.values())[1]:
+            elif util == heapq.nlargest(2, self.noisy_preferences.values())[1]:
                 votes['pos_vote'].append(cand)
 
         return votes
@@ -41,16 +52,18 @@ class Voter:
     def get_util_for_candidate(self, candidate):
         return self.preferences[candidate]
 
+    def get_noisy_util_for_candidate(self, candidate):
+        return self.noisy_preferences[candidate]
+
     def majority_revote(self, candidates):
         """candidates: list of the candidates who can be voted for in the runoff"""
         fav_cand = None
         temp_max_utility = -1*sys.maxint
         for candidate in candidates:
             if self.get_util_for_candidate(candidate) > temp_max_utility:
-                temp_max_utility = self.get_util_for_candidate(candidate)
+                temp_max_utility = self.get_noisy_util_for_candidate(candidate)
                 fav_cand = candidate
         return fav_cand
-
 
 class Election:
 
@@ -63,7 +76,7 @@ class Election:
         self.candidate_util = {x: 0 for x in self.candidates}
         self.majority_revote_record = {x: 0 for x in self.candidates}
         self.optimal_cand = None
-        self.total_votes =0
+        self.total_votes = 0
 
     def create_voters(self):
 
@@ -100,9 +113,7 @@ class Election:
         """Performs revote for a limited set of candidates
             candidates: the list of candidates that are allowed to be voted for
         """
-        if len(candidates) != 2:
-            print "candidates in the running", candidates
-            print "there were more than two candidates"
+        
         for voter_id,voter in self.voters.iteritems():
             vote = voter.majority_revote(candidates)
             self.majority_revote_record[vote] +=1
@@ -114,11 +125,17 @@ class Election:
 
     def determine_winner(self):
 
-
         if self.type != 'majority':
+            runoff_cand = []
             for cand, votes in self.vote_record.iteritems():
                 if votes == max(self.vote_record.values()):
-                    self.winner = cand
+                    runoff_cand.append(cand)
+            if len(runoff_cand) == 1:
+                self.winner = runoff_cand[0]
+            else:
+                # We choose to use a majority voting scheme if there are ties
+                self.election_majority_revote(runoff_cand)
+                self.determine_runoff_winner()
         else:
             runoff_cand = []
             #Either determine a winner or do a re-vote for the 2 highest candidates
@@ -142,7 +159,7 @@ class Election:
             self.determine_runoff_winner()
 
     def calc_utilities(self):
-        #Fills in a dictionary that maps candidates to how much utility they give to all the voters
+        # Fills in a dictionary that maps candidates to how much utility they give to all the voters
         for cand in self.candidates:
             util = 0
             for voter_id, voter in self.voters.iteritems():
@@ -150,16 +167,16 @@ class Election:
             self.candidate_util[cand] = util
 
     def calc_optimal(self):
-        #returns the who the winner to maximize social utility would be, and that winner(TBD)
+        # returns the who the winner to maximize social utility would be, and that winner(TBD)
         max_utility = max(self.candidate_util.values())
         for candidate in self.candidates:
             if self.candidate_util[candidate] == max_utility:
                 self.optimal_cand = candidate
-        #self.optimal_cand = max(self.candidate_util, key=lambda x: self.candidate_util[x])
+        # self.optimal_cand = max(self.candidate_util, key=lambda x: self.candidate_util[x])
         return max(self.candidate_util.values())
 
     def calc_winner_util(self):
-        #returns the utility from the winner of the election
+        # returns the utility from the winner of the election
         return self.candidate_util[self.winner]
 
     def calc_total_votes(self):
@@ -170,10 +187,3 @@ class Election:
         self.winner = None
         self.majority_revote_record = {x: 0 for x in self.candidates}
         self.total_votes = 0
-
-
-
-
-
-
-
