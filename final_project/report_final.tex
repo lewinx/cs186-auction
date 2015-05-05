@@ -47,10 +47,14 @@
 
 \begin{document}
 
+% \onehalfspace
+
+
 \noindent Computer Science 186 \hfill \today\\
 \noindent\makebox[\linewidth]{\rule{6.5in}{2.0pt}}
 
 \begin{center}
+
 
 {{\LARGE \bf Analysis of Voting Mechanisms}}
 
@@ -136,12 +140,13 @@ Below are visualizations of the outcome of each election. For each set of candid
 \caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
 \end{figure}
 
-From the visualization above, we observe that in a truthful election, Borda Count does noticeably better than the other mechanisms. However, when noise is added to each voter's preference, we see that the utility loss of each election increases and also ...
+From the visualization above, we observe that in a truthful election, Borda Count does noticeably better than the other mechanisms while plurality incurs the highest loss (for reason discussed previously). However, when noise is added to each voter's preference, we see that the utility loss of each election increases and the differences between each mechanism are drastically decreased. 
 
 \begin{figure}[H]\center
 \includegraphics[scale=0.38]{normal.png}
 \caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
 \end{figure}
+Here, we observe that with Normally distributed preferences...
 
 \subsection{Tight Elections}
 
