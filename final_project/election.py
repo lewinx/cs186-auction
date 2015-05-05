@@ -6,8 +6,6 @@ import pandas as pd
 
 # Initialize Parameters
 
-
-
 parser = argparse.ArgumentParser(description='Outputs a csv of voting outcomes.')
 
 # command line arguments
@@ -15,13 +13,15 @@ parser = argparse.ArgumentParser(description='Outputs a csv of voting outcomes.'
 parser.add_argument('N_VOTERS', metavar='N_VOTERS', type = int, help = 'number of voters')
 parser.add_argument('N_CAND', metavar = 'N_CAND', type = int, help = 'number of candidates')
 parser.add_argument('ITER', metavar = 'ITER', type = int, help = 'number of iterations')
+parser.add_argument('-v', action='store_true')
 
 args = parser.parse_args()
-
 
 N_VOTERS = args.N_VOTERS
 N_CAND = args.N_CAND
 ITER = args.ITER
+if args.v is None:
+	args.v = False
 
 # save everything to a CSV
 
@@ -35,19 +35,17 @@ row = 0
 
 for _ in xrange(ITER):
 
-
-
 	election = Election('all', N_CAND, N_VOTERS)
 	election.create_voters()
 
 	election.calc_utilities()
 	election.calc_optimal()
 
-	print "Total Utility for Each Candidate"
-	for cand, util in election.candidate_util.iteritems():
-		print "Candidate:", cand, "Total Utility:", util
-
-	print 
+	if args.v == True:
+		print "Total Utility for Each Candidate"
+		for cand, util in election.candidate_util.iteritems():
+			print "Candidate:", cand, "Total Utility:", util
+		print 
 
 	winners = []
 	socially_optimal = election.optimal_cand
@@ -56,45 +54,43 @@ for _ in xrange(ITER):
 
 	for elec in ['plurality', 'majority', 'Borda', 'democracy21']:
 
-		print elec.upper(), "ELECTION"
-		print 
-
 		election.set_election_type(elec)
 		election.collect_votes()
 		election.determine_winner()
 
 		winners.append(election.winner)
-
 		socially_optimal_util = election.candidate_util[socially_optimal]
 		loss.append(socially_optimal_util - election.candidate_util[election.winner])
 
-		print "Winner: Candidate", election.winner
-
-		for cand, vote in election.vote_record.iteritems():
-			print "Candidate:", cand, "Total Votes:", vote
-
-		if elec == 'majority':
-			print 
-
-			print "REVOTING HAS COMMENCED!"
+		if args.v == True:
 
 			print 
+			print elec.upper(), "ELECTION"
+			print 
 
-			for cand, vote in election.majority_revote_record.iteritems():
-				if vote == 0:
-					continue
-				else:
-					print "Candidate:", cand, "Total Votes:", vote	
+			print "Winner: Candidate", election.winner
 
+			for cand, vote in election.vote_record.iteritems():
+				print "Candidate:", cand, "Total Votes:", vote
 
+			if elec == 'majority':
+				print 
+				print "REVOTING HAS COMMENCED!"
+				print 
 
-		print "Winner: Candidate", election.winner
-		print 
-		print "Socially Optimal: Candidate", election.optimal_cand
+				for cand, vote in election.majority_revote_record.iteritems():
+					if vote == 0:
+						continue
+					else:
+						print "Candidate:", cand, "Total Votes:", vote	
 
-		election.calc_total_votes()
+			print "Winner: Candidate", election.winner
+			print 
+			print "Socially Optimal: Candidate", election.optimal_cand
 
-		print election.total_votes
+			election.calc_total_votes()
+
+			print election.total_votes
 
 		election.reset_election()
 
@@ -112,6 +108,6 @@ for _ in xrange(ITER):
 	row += 1
 
 		    
-df.to_csv('data_normal1prefs.csv')
+df.to_csv('data_uniformprefs_tight.csv')
 
 
