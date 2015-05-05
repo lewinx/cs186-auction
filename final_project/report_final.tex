@@ -47,14 +47,10 @@
 
 \begin{document}
 
-% \onehalfspace
-
-
 \noindent Computer Science 186 \hfill \today\\
 \noindent\makebox[\linewidth]{\rule{6.5in}{2.0pt}}
 
 \begin{center}
-
 
 {{\LARGE \bf Analysis of Voting Mechanisms}}
 
@@ -143,9 +139,6 @@ Below, we expore the results of the simulations we ran. We begin by looking into
 \caption{Bar graph of average utility losses for each election under uniformally distributed preferences and truthful reporting and noisy reporting}
 \end{figure}
 
-<<<<<<< HEAD
-From the visualization above, we observe that in a truthful election, Borda Count does noticeably better than the other mechanisms while plurality incurs the highest loss (for reason discussed previously). However, when noise is added to each voter's preference, we see that the utility loss of each election increases and the differences between each mechanism are drastically decreased. 
-=======
 Figure 1 shows the success of Borda count over the other simulated voting mechanisms. By the central limit theorem the total social utility follows a normal distribution. The mean of the distribution is simply the sum of the expected values to give 50. The standard deviation can be found by $n^2 * \sigma^2/n$, where $\sigma^2$ is the variance of the uniform distribution. This gives us a standard deviation in the sum of $2.88$.
 
 Using order statistics, the expected utility of the best candidate should be $50 + 1.3*2.88 = 53.74$. Note we use 1.3 because it corresponds to 91\%, or where we would expect the best candidate to fall. Empirically we found this to be close to the social utility of the optimal candidate under uniform priors.
@@ -157,7 +150,6 @@ Democracy 2.1 fares slightly worse in choosing a candidate that is on average 0.
 Plurality voting performs the worst under the uniform preference order, having an average loss of 1.82. This moves us $1.82/2.88 = .63$ standard deviations away from the optimal candidate. We are now choosing approximately the 75th percentile candidate. Thus we are on average choosing a candidate worse than the 2nd best candidate using plurality voting. There is a much higher variation on the level of candidate that ends up being elected by the plurality mechanism. This demonstrates some of the dangers of plurality voting.
 
 These voting trends are unsurprising for the uniform prior preferences. Additional information appears to be the best determinant in selecting the optimal candidate. Borda count forces the voters to reveal their entire preference order, Democracy 2.1 the top 2 and bottom choice, and plurality and majority only the top choice. However because of the tendency for runoffs in majority voting, there frequently is more information revealed in the form of choosing again over a limited set of candidates. Information revealed by each voter appears to correspond directly with an improved ability of the mechanism to choose the optimal candidate as voters are voting truthfully.\\
->>>>>>> 2994a4c945f55efb1c3f6eec48ec03f3d6134546
 
 Once noise is added into the system all of our mechanisms perform significantly worse than before. In fact even the best performing Borda count still averages a loss of 3.26, indicating the average chosen candidate is only $.17$ standard deviations better than the average candidate. We are thus on average picking the 4th best candidate. For the three other mechanisms, we perform at a level that can be seen equivalent to randomly choosing a candidate as the victor.
 
@@ -169,7 +161,6 @@ In this case, the noise added in the form of a standard normal heavily affected 
 \includegraphics[scale=0.38]{normal.png}
 \caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
 \end{figure}
-Here, we observe that with Normally distributed preferences...
 
 Figure 2 shows the results of creating a preference order among the candidates, where candidates with higher ids are more preferred by the voters on average. Again we can study the average loss and see how various mechanisms perform. In this case because we have predetermined the "best" candidate, we know that the average optimal utility will be 100, while the second best utility will be 90. However the on average more preferred candidates are subject to more variance, which makes the ability of the voting mechanism to respond to this variance interesting.
 
@@ -185,7 +176,7 @@ What is interesting is how much worse each mechanism does after introducing nois
 \subsection{Uniform Tight Elections}
 
 \begin{figure}[H]\center
-\includegraphics[scale=0.38]{uniform_tight.png}
+\includegraphics[scale=0.38]{uniform_tight_noisy.png}
 \caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
 \end{figure}
 
@@ -201,14 +192,12 @@ In particular consider Democracy 2.1. Even if a candidate strongly prefers candi
 
 Borda vote does something similar, only allowing it to be likely that the tight candidate still receives a relatively high position. However the determining factor will still be more marked if a voter prefers a non-tight candidate to a tight candidate. In this case plurality and majority actually are the best mechanisms to ensure that those with strong positive opinions for a certain candidate are able to best make their preferences known. By limiting votes to only one candidate, the mechanism puts more weight on the possibility for heavy positive preference, and allows voters to directly vote between the two tight candidates, rather than placing the emphasis on the others.
 
-
-\textbf{noise needs to be redone}
-
+In the election with noise added to candidate preferences, we see that the average utility loss for each voting mechanism increases as expected. In addition, the relative positions of each voting mechanism (in terms of average utility loss) remain the same. 
 
 \subsection{Normal Tight Elections}
 
 \begin{figure}[H]\center
-\includegraphics[scale=0.38]{normal_tight.png}
+\includegraphics[scale=0.38]{normal_tight_noisy.png}
 \caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
 \end{figure}
 
