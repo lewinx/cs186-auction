@@ -116,8 +116,7 @@ Simulations were run with 100 voters, 5 candidates, and 1000 iterations. For eac
 
 \[\textrm{utility loss} = \textrm{optimal candidate utility} - \textrm{winner utility}\]
 
-
-We create 100 voters with different preferences over the 10 available candidates. We have 2 different distributions from which the preferences are created. First there is a uniform (0,1) distribution over all of the candidates. Second we simulated a with candidate preferences being drawn sampled from a standard uniform distribution and a shifting Normal distribution. For candidate $i$, the preference was sampled from a $N(\sqrt(i), (i + 1)^2)$ distribution -- thus, candidates with higher ID numbers were slightly more preferred by the general population. We believe that candidates that are more preferred are more likely to have disagreement over their value.
+We create 100 voters with different preferences over the 10 available candidates. We have 2 different distributions from which the preferences are created. First there is a uniform (0,1) distribution over all of the candidates. Second we simulated a with candidate preferences being drawn sampled from a standard uniform distribution and a shifting Normal distribution. For candidate $i$, the preference was sampled from a $N(\sqrt(i), (i + 1)^2)$ distribution -- thus, candidates with higher ID numbers were slightly more preferred by the general population. We believe that candidates that are more preferred are more likely to have disagreement over their value. Based on the continual nature of these distributions, we are able to ensure that every voter has strict preferences over the candidates for computational simplicity.
 
 In a practical sense, ten candidates appears perfectly rational to have as the total number of candidates. However in most cases the race will simply be between the two leading parties in a "tight" election. To simulate this tightness we continue to create preferences as above; next we replace the preferences for candidates 1 and 2 with an exponential prior with $\Expo(\lambda = 2)$. Over 100 voters, one of candidate 1 or 2 now is most likely to be the socially optimal candidate.
 
@@ -125,23 +124,41 @@ Finally we discussed in the introduction our desire to add noise to the voter pr
 
 Thus we study eight different total preference distributions. Uniform, tight or not tight, and noisy or noiseless. And normal, tight or not tight, and noisy or noiseless. We run 1000 iterations, where each iteration generates a set of voters and then runs all eight election types.
 
-\section{Results}
+\section{Results and Discussion}
 
-In many of our simulations, we found that Borda Count would result in the lowest average utility loss. This is reasonable since 1) widely accepted candidates are often elected and 2) more information (voters reveal entire preference) is being used when it comes to determining the final winner. \\
+In many of our simulations, we found that Borda Count would result in the lowest average utility loss. This is reasonable since first, widely accepted candidates are often elected and second, more information (voters reveal entire preference) is being used when it comes to determining the final winner.  
 
-Below are visualizations of the outcome of each election. For each set of candidate preferences, we compared both a truthful election as well as a noisy election.  
+Below, we expore the results of the simulations we ran. We begin by looking into non-tight elections under both the uniform prior as well as the normal priors discussed in the methodology.
 
+\subsection{Uniform "Loose" Elections}
 \begin{figure}[H]\center
 \includegraphics[scale=0.38]{uniform.png}
-\caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
+\caption{Bar graph of average utility losses for each election under uniformally distributed preferences and truthful reporting and noisy reporting}
 \end{figure}
 
-From the visualization above, we observe that in a truthful election, Borda Count does noticeably better than the other mechanisms. However, when noise is added to each voter's preference, we see that the utility loss of each election increases and also ...
+Figure 1 shows the success of Borda count over the other simulated voting mechanisms. By the central limit theorem the total social utility follows a normal distribution. The mean of the distribution is simply the sum of the expected values to give 50. The standard deviation can be found by $n^2 * \sigma^2/n$, where $\sigma^2$ is the variance of the uniform distribution. This gives us a standard deviation in the sum of $2.88$.
 
+Using order statistics, the expected utility of the best candidate should be $50 + 1.3*2.88 = 53.74$. Note we use 1.3 because it corresponds to 91\%, or where we would expect the best candidate to fall. Emperically we found this to be close to the social utility of the optimal candidate under uniform priors.
+
+Borda count averages a loss of only .19, where the average social utility per candidate is 53.74. Thus we lose out only 6\% of a standard deviation from the optimal candidate in general. Assuming infinite candidates who were distributed along this normal distribution, this moves us from the candidate in the 91st percentile to a candidate in the 89th percentile on average. The limited number of candidates means this loss isn't very noticable. In fact looking at the second best candidate, we would expect him to fall on the 82nd percentile. Thus we note that the average loss from Borda count is extremely small relative to the optimal candidate, and thus in general we tend to choose the best candidate among the ten selections.
+
+Democracy 2.1 fares slightly worse in choosing a candidate that is on average 0.79 worse than the optimal candidate moves us $.79/2.88 = .274$ standard deviations away from the optimal solution. In this case we have regressed from choosing a candidate in the 91st percentile to a candidate in the 86th percentile. Again we tend to be choosing either the socially optimal candidate or the 2nd best option.
+
+Plurality voting performs the worst under the uniform preference order, having an average loss of 1.82. This moves us $1.82/2.88 = .63$ standard deviations away from the optimal candidate. We are now choosing approximately the 75th percentile candidate. Thus we are on average choosing a candidate worse than the 2nd best candidate using plurality voting. There is a much higher variation on the level of candidate that ends up being elected by the plurality mechanism. This demonstrates some of the dangers of plurality voting.
+
+These voting trends are unsurprising for the uniform prior preferences. Additional information appears to be the best determinent in selecting the optimal candidate. Borda count forces the voters to reveal their entire preference order, Democracy 2.1 the top 2 and bottom choice, and plurality and majority only the top choice. However because of the tendency for runoffs in majority voting, there frequently is more information revealed in the form of choosing again over a limited set of candidates. Information revealed by each voter appears to correspond directly with an improved ability of the mechanism to choose the optimal candidate as voters are voting truthfully.\\
+
+Once noise is added into the system all of our mechanisms perform significantly worse than before. In fact even the best performing Borda count still averages a loss of 3.26, indicating the the average chosen candidate is only $.17$ standard deviations better than the average candidate. We are thus on average picking the 4th best candidate. For the three other mechanisms, we perform at a level that can be seen equivalent to randomly choosing a candidate as the victor.
+
+In this case, the noise added in the form of a standard normal heavily affected the perceived preferences of the voting mechansm. \textbf{REDO HAHAHA}.
+
+\subsection{Normal "Loose" Elections}
 \begin{figure}[H]\center
 \includegraphics[scale=0.38]{normal.png}
 \caption{Bar graph of average utility losses for each election under normally distributed preferences and truthful reporting.}
 \end{figure}
+
+Figure 2 shows the results of creating a preference order among the candidates, where candidates with higher ids are more prefered by the voters on average. Again we can study the average loss and see how various mechansims 
 
 \subsection{Tight Elections}
 
@@ -158,7 +175,7 @@ From the visualization above, we observe that in a truthful election, Borda Coun
 
 \section{Final Remarks}
 
-
+Borda count, while successful may be less so as you require candidates to have an idea about their preferences over ALL candidates
 
 \end{document}
 
